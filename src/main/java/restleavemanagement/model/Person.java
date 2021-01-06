@@ -1,6 +1,7 @@
 package restleavemanagement.model;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class Person {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "persons_roles",
+            name = "person_role",
             joinColumns = @JoinColumn(
                     name = "person_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
@@ -46,11 +47,21 @@ public class Person {
 
     private Collection<Role> roles;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "person_team",
+            joinColumns = @JoinColumn(
+                    name = "id_person", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "id_team", referencedColumnName = "id"))
+
+    private Set<TeamType> teamTypes;
+
     public Person() {
 
     }
 
-    public Person(Long id, String name, String phoneNumber, String vacationDays, String email, String password, Collection<Role> roles) {
+    public Person(Long id, String name, String phoneNumber, String vacationDays, String email, String password, Collection<Role> roles, Set<TeamType> teamTypes) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -58,15 +69,17 @@ public class Person {
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.teamTypes = teamTypes;
     }
 
-    public Person(String name, String phoneNumber, String vacationDays, String email, String password, Collection<Role> roles) {
+    public Person(String name, String phoneNumber, String vacationDays, String email, String password, Collection<Role> roles, Set<TeamType> teamTypes) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.vacationDays = vacationDays;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.teamTypes = teamTypes;
     }
 
     public Long getId() {
@@ -123,5 +136,13 @@ public class Person {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<TeamType> getTeamTypes() {
+        return teamTypes;
+    }
+
+    public void setTeamTypes(Set<TeamType> teamTypes) {
+        this.teamTypes = teamTypes;
     }
 }

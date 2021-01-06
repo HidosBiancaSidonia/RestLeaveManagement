@@ -6,4 +6,6 @@ import restleavemanagement.model.Person;
 
 public interface PersonService extends UserDetailsService {
     Person save(PersonRegistrationDto registrationDto);
+
+    public Person findPersonByEmail(String username);
 }

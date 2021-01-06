@@ -1,11 +1,128 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <link rel="shortcut icon" type="image/png" th:href="@{/img/company.png}"/>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
     <title>Home</title>
 </head>
+<style>
+    body {
+        background: url("/img/fundal.png") no-repeat fixed;
+        background-size: cover;
+    }
+
+    .myDiv {
+        border: 5px groove #3c5984;
+        background: rgba(0,9,44, 0.9);
+        text-align: center;
+        top: 0;
+        left: 0;
+        width: 600px;
+        margin: auto;
+        padding: 30px 90px 30px 90px;
+        position: relative;
+        bottom: 0;
+        right: 0;
+    }
+
+</style>
 <body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="active"><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/request}">My Requests</a></li>
+            <li sec:authorize="hasAnyAuthority('CEO','DEPARTMENT_HEAD','TEAM_LEADER')"><a th:href="@{/request}">Employee Requests</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><span th:utext="${user.getName()}">Name</span><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--<div sec:authorize="isAuthenticated()" class="container">-->
+<!--    <div sec:authorize="hasAuthority('EMPLOYEE')">Text visible</div>-->
+<!--</div>-->
+
+<div sec:authorize="isAuthenticated()" >
+<h2 style="text-align:center ; background-color: #D7BDE2"><b>Welcome <span th:utext="${user.getName()}"> User</span>! In our company you are <span sec:authentication="principal.authorities"> Roles</span></b> &#128521; </h2>
+</div>
+
+<div class="container" >
+    <form th:object="${user}" th:action="@{/create-leave-request}" method="post">
+
+        <div class="myDiv" >
+            <h2 style="color: aliceblue; padding-bottom: 30px" >Vacation Request Form</h2>
+
+            <div class = "form-group">
+                <label style="color: white"> Name </label>
+                <input type="text" class="form-control" id ="name" name = "name"
+                       th:placeholder="${user.getName()}" autocomplete="off"
+                       style="color: red; width:370px; margin-left: 25px" readonly/> <br/>
+            </div>
+
+            <div class="form-group">
+                <label style="color: white">Email</label>
+                <input  id="email" name="email" class="form-control"
+                        th:placeholder="${user.getEmail()}" autofocus autocomplete="off"
+                        style=" width:370px; margin-left: 25px" readonly /> <br/>
+            </div>
+
+            <div class="form-group">
+                <label style="color: white">Phone Number</label>
+                <input  id="phone" name="phone" class="form-control"
+                        th:placeholder="${user.getPhoneNumber()}" autofocus autocomplete="off"
+                        style=" width:370px; margin-left: 25px; color:black" readonly /> <br/>
+            </div>
+
+
+            <div>
+                <div>
+                    <label style="color: white">Start Date</label>
+                    <div class="form-group">
+                        <input style=" width:370px; margin-left: 25px" type="date" id="1989254035_date" placeholder="8/23/2019" class="form-control" required>
+
+                    </div>
+
+                </div>
+
+                <div>
+                    <label style="color: white">End Date</label>
+                    <div class="form-group">
+                        <input style=" width:370px; margin-left: 25px" type="date" id="1403025287_date" placeholder="8/23/2019" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger" role="alert" th:if="${error}">
+                Invalid username or password!</div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input class="btn btn-primary" style=" width:150px; margin-top: 20px; margin-bottom: 20px"
+                               type="submit" name="submit" id="submit"
+                               value="Submit" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>
