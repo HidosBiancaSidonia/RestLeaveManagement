@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import restleavemanagement.dto.PersonRegistrationDto;
 import restleavemanagement.service.PersonService;
 
-
 @Controller
 @RequestMapping("/registration")
 class PersonRegistrationController {
@@ -31,7 +30,7 @@ class PersonRegistrationController {
 
     @PostMapping
     public String registerUserAccount(@ModelAttribute("person") PersonRegistrationDto registrationDto) {
-        personService.save(registrationDto);
+        //personService.save(registrationDto);
         return "redirect:/registration?success";
     }
 }

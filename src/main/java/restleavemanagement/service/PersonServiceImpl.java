@@ -17,6 +17,7 @@ import restleavemanagement.repository.PersonRepository;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,18 +34,6 @@ public class PersonServiceImpl  implements  PersonService{
     }
 
     @Override
-    public Person save(PersonRegistrationDto registrationDto) {
-        Person person = new Person(registrationDto.getName(),
-                registrationDto.getPhoneNumber(), "50",
-                registrationDto.getEmail(), passwordEncoder.encode(registrationDto.getPassword()),Arrays.asList(new Role(RoleType.EMPLOYEE.name())),new HashSet<>(Arrays.asList(new TeamType(restleavemanagement.enumeration.TeamType.TEST.name()))));
-
-        System.out.println(passwordEncoder.encode(registrationDto.getPassword()));
-
-
-        return personRepository.save(person);
-    }
-
-    @Override
     public Person findPersonByEmail(String email) {
         Person person = personRepository.findByEmail(email);
         return person;
@@ -53,11 +42,13 @@ public class PersonServiceImpl  implements  PersonService{
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Person person = personRepository.findByEmail(email);
-        if(person == null){
+        if (person == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
 
-        return new org.springframework.security.core.userdetails.User(person.getEmail(),person.getPassword(),mapRolesToAuthorities(person.getRoles()));
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(person.getEmail(), person.getPassword(), mapRolesToAuthorities(person.getRole()));
+
+        return userDetails;
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role>roles){
