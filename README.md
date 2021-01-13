@@ -8,7 +8,7 @@
 
 <h3>Functionalities:</h3>
 
-- [ ] An employee is part of one or more teams, each team being led by a boss (in turn a boss can has several subordinate teams and can has a boss, less a CEO - who manages his leave alone) . CEO - Chief Executive Officer
+- [x] An employee is part of one or more teams, each team being led by a boss (in turn a boss can has several subordinate teams and can has a boss, less a CEO - who manages his leave alone) . CEO - Chief Executive Officer
 
 - [ ] The employee can take a rest leave at least 5 days before the chosen period and with a maximum of half a year before the chosen period. Number of vacantion days performed are calculated without taking into account days off  from calendar (Saturday, Sunday, public holidays) and are decreased from the total number of days that the employee benefits (initially established).
 
