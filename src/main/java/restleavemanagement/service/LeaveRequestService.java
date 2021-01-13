@@ -2,9 +2,10 @@ package restleavemanagement.service;
 
 import restleavemanagement.dto.LeaveRequestDto;
 import restleavemanagement.model.LeaveRequest;
+import restleavemanagement.model.Person;
 
 public interface LeaveRequestService {
-    LeaveRequest save(LeaveRequestDto registrationDto);
+    LeaveRequest save(LeaveRequestDto registrationDto) throws Exception;
 
-    boolean createLeaveRequest(LeaveRequestDto leaveRequest) throws Exception;
+    LeaveRequest getLeaveRequest(Person person);
 }

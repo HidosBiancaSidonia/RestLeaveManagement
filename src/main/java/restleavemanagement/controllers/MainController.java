@@ -9,11 +9,13 @@ import org.springframework.web.servlet.ModelAndView;
 import restleavemanagement.dto.LeaveRequestDto;
 import restleavemanagement.model.Person;
 import restleavemanagement.model.Role;
+import restleavemanagement.model.TeamType;
 import restleavemanagement.repository.PersonRepository;
 import restleavemanagement.repository.RoleRepository;
 import restleavemanagement.service.LeaveRequestService;
 import restleavemanagement.service.PersonService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,9 +23,6 @@ public class MainController {
 
     @Autowired
     private PersonService personService;
-
-    @Autowired
-    private LeaveRequestService leaveRequestService;
 
     @Autowired
     private PersonRepository personRepository;
@@ -46,36 +45,16 @@ public class MainController {
         List<Role> role = roleRepository.findAll();
         List<Person> persons = personRepository.findAll();
 
+        ArrayList<String> teams = new ArrayList<>();
+        for (TeamType team:person.getTeamTypes()) {
+            teams.add(team.getName()+" ");
+        }
+
+        model.addObject("teams",teams);
         model.addObject("role", role);
         model.addObject("users", persons);
         model.addObject("user", person);
         model.setViewName("home");
-
-        model.addObject("leaveRequestDto", new LeaveRequestDto());
         return model;
-    }
-
-
-    @PostMapping("/home")
-    public ModelAndView createLeaveRequestAction(@ModelAttribute("leaveRequestDto") LeaveRequestDto leaveRequestDto) throws Exception {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(leaveRequestDto);
-        modelAndView.setViewName("home");
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Person person = personService.findPersonByEmail(auth.getName());
-        leaveRequestDto.setPerson(person);
-
-        System.out.println(leaveRequestDto);
-        System.out.println("Intra in controller");
-
-        try {
-            leaveRequestService.createLeaveRequest(leaveRequestDto);
-        } catch (Exception e) {
-//            TODO: Add error object + message in html
-            modelAndView.setViewName("user/errors");
-        }
-
-        return modelAndView;
     }
 }

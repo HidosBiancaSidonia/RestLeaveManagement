@@ -7,4 +7,6 @@ import restleavemanagement.model.Person;
 
 @Repository
 public interface LeaveRequestRepository extends CrudRepository<LeaveRequest,Long> {
+
+    LeaveRequest findByPerson(Person person);
 }

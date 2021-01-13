@@ -14,16 +14,38 @@
           crossorigin="anonymous">
     <title>My Request</title>
 </head>
+<style>
+    body {
+        background: url("/img/fundal.png") no-repeat fixed;
+        background-size: cover;
+    }
+
+    .myDiv {
+        border: 5px groove #3c5984;
+        background: rgba(0,9,44, 0.9);
+        text-align: center;
+        top: 0;
+        left: 0;
+        width: 800px;
+        margin: auto;
+        padding: 30px 90px 30px 90px;
+        position: relative;
+        bottom: 0;
+        right: 0;
+    }
+    
+</style>
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/create_leave_request}">Request For Leave</a> </li>
             <li class="active"><a th:href="@{/myRequest}">My Requests</a></li>
             <li sec:authorize="hasAnyAuthority('CEO','DEPARTMENT HEAD','TEAM LEADER')"><a th:href="@{/employeeRequest}">Employee Requests</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><span th:utext="${user.getName()}">Name</span><span class="caret"></span></a>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><span th:utext="${name}">Name</span><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
                 </ul>
@@ -32,6 +54,27 @@
     </div>
 </nav>
 
+<div class="container">
+    <div class="myDiv" >
+        <h1 style="text-align:center;color: white">My Leave Request</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 27vh; text-align:center; color: white">Start Date</th>
+                <th style="text-align:center; color: white">End Date</th>
+                <th style="width: 27vh;text-align:center; color: white">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  th:object="${leaveRequest}">
+                <td th:text="${startDate}" style="width: 27vh; color: white"></td>
+                <td th:text="${endDate}" style="text-align:center; color: white"></td>
+                <td th:text="*{status}" style="text-align:center; color: white"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>

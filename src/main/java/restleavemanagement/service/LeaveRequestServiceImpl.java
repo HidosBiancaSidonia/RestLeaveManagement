@@ -3,6 +3,7 @@ package restleavemanagement.service;
 import org.springframework.stereotype.Service;
 import restleavemanagement.dto.LeaveRequestDto;
 import restleavemanagement.model.LeaveRequest;
+import restleavemanagement.model.Person;
 import restleavemanagement.repository.LeaveRequestRepository;
 
 import java.text.DateFormat;
@@ -21,31 +22,27 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     }
 
     @Override
-    public LeaveRequest save(LeaveRequestDto registrationDto) {
-        LeaveRequest leaveRequest = new LeaveRequest(registrationDto.getStartDate(),registrationDto.getEndDate(),registrationDto.getStatus(),registrationDto.getNrStatus(),registrationDto.getPerson());
+    public LeaveRequest save(LeaveRequestDto registrationDto) throws Exception {
+        if (requestLengthIsHigherThanSixMonths(registrationDto.getStartDate(), registrationDto.getEndDate())) {
+            System.out.println("Intra in requestLengthIsHigherThanSixMonths si returneaza: " + requestLengthIsHigherThanSixMonths(registrationDto.getStartDate(), registrationDto.getEndDate()));
+            throw new Exception("You can't create a leave request longer than 6 months.");
+        }
+
+        if (startDateIsFiveDaysAhead(registrationDto.getStartDate())) {
+            System.out.println("Intra in startDateIsFiveDaysAhead si returneaza: " + startDateIsFiveDaysAhead(registrationDto.getStartDate()));
+            throw new Exception("You can't create a leave request 5 days before starting date.");
+        }
+
+        LeaveRequest leaveRequest = new LeaveRequest(registrationDto.getStartDate(),registrationDto.getEndDate(),"PENDING",0,registrationDto.getPerson());
 
         return leaveRequestRepository.save(leaveRequest);
     }
 
     @Override
-    public boolean createLeaveRequest(LeaveRequestDto leaveRequestDto) throws Exception {
-        if (requestLengthIsHigherThanSixMonths(leaveRequestDto.getStartDate(), leaveRequestDto.getEndDate())) {
-            System.out.println("Intra in requestLengthIsHigherThanSixMonths si returneaza: " + requestLengthIsHigherThanSixMonths(leaveRequestDto.getStartDate(), leaveRequestDto.getEndDate()));
-            throw new Exception("You can't create a leave request longer than 6 months.");
-        }
-
-        if (startDateIsFiveDaysAhead(leaveRequestDto.getStartDate())) {
-            System.out.println("Intra in startDateIsFiveDaysAhead si returneaza: " + startDateIsFiveDaysAhead(leaveRequestDto.getStartDate()));
-            throw new Exception("You can't create a leave request 5 days before starting date.");
-        }
-
-        LeaveRequest leaveRequest = new LeaveRequest(leaveRequestDto.getStartDate(),leaveRequestDto.getEndDate(),"PENDING",0,leaveRequestDto.getPerson());
-
-
-        save(leaveRequestDto);
-
-        return true;
+    public LeaveRequest getLeaveRequest(Person person) {
+        return leaveRequestRepository.findByPerson(person);
     }
+
 
     private boolean requestLengthIsHigherThanSixMonths(Date startDate, Date endDate) {
         long ms = Math.abs(endDate.getTime() - startDate.getTime());

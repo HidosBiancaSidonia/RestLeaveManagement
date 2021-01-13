@@ -1,12 +1,17 @@
 package restleavemanagement.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import restleavemanagement.model.Person;
 
 import java.util.Date;
 
 public class LeaveRequestDto {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
     private int nrStatus;
     private String status;
     private Person person;
