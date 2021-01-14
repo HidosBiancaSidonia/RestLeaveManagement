@@ -46,7 +46,7 @@ public class Person {
 
     private Set<TeamType> teamTypes;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "person")
     @PrimaryKeyJoinColumn
 
     private LeaveRequest leaveRequests;

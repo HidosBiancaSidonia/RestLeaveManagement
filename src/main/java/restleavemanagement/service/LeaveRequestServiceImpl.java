@@ -43,6 +43,11 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         return leaveRequestRepository.findByPerson(person);
     }
 
+    @Override
+    public void deleteLeaveRequest(Long id) {
+        leaveRequestRepository.deleteById(id);
+    }
+
 
     private boolean requestLengthIsHigherThanSixMonths(Date startDate, Date endDate) {
         long ms = Math.abs(endDate.getTime() - startDate.getTime());

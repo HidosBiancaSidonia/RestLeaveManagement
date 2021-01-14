@@ -8,4 +8,6 @@ public interface LeaveRequestService {
     LeaveRequest save(LeaveRequestDto registrationDto) throws Exception;
 
     LeaveRequest getLeaveRequest(Person person);
+
+    void deleteLeaveRequest(Long id);
 }

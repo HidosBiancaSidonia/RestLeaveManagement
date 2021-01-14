@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import restleavemanagement.dto.LeaveRequestDto;
 import restleavemanagement.model.LeaveRequest;
 import restleavemanagement.model.Person;
+import restleavemanagement.repository.LeaveRequestRepository;
 import restleavemanagement.repository.PersonRepository;
 import restleavemanagement.service.LeaveRequestService;
 import restleavemanagement.service.PersonService;
@@ -25,6 +26,9 @@ public class LeaveRequestController {
 
     @Autowired
     PersonRepository personRepository;
+
+    @Autowired
+    LeaveRequestRepository leaveRequestRepository;
 
     @Autowired
     LeaveRequestService leaveRequestService;
@@ -110,6 +114,23 @@ public class LeaveRequestController {
         return model;
     }
 
+    @PostMapping("/delete")
+    public ModelAndView delete(){
+        ModelAndView modelAndView = new ModelAndView("/delete");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Person person = personService.findPersonByEmail(auth.getName());
+        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAll();
+
+        for (LeaveRequest leaveRequest: leaveRequests) {
+            if(leaveRequest.getPerson().getId().equals(person.getId())){
+                leaveRequestService.deleteLeaveRequest(leaveRequest.getId());
+            }
+        }
+
+        modelAndView.setViewName("/delete");
+        return  modelAndView;
+    }
+
     @GetMapping("/errors")
     public ModelAndView errorHandling() {
         ModelAndView model = new ModelAndView("/errors");
@@ -148,7 +169,7 @@ public class LeaveRequestController {
 
 
         if(leaveRequests.isEmpty()){
-            model.setViewName("/noRequest");
+            model.setViewName("/noEmployeeRequest");
         }
         else{
 
