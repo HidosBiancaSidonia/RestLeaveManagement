@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import restleavemanagement.model.LeaveRequest;
 import restleavemanagement.model.Person;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -16,5 +17,7 @@ public interface LeaveRequestRepository extends CrudRepository<LeaveRequest,Long
     List<LeaveRequest> findAll();
 
     @Override
+    @Transactional
     void deleteById(Long aLong);
+
 }

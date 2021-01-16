@@ -48,7 +48,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         leaveRequestRepository.deleteById(id);
     }
 
-
     private boolean requestLengthIsHigherThanSixMonths(Date startDate, Date endDate) {
         long ms = Math.abs(endDate.getTime() - startDate.getTime());
         long result = TimeUnit.DAYS.convert(ms, TimeUnit.MILLISECONDS);

@@ -54,39 +54,39 @@
 
 <div class="container">
     <div class="myDiv" >
-    <table class="table">
-        <thead>
-        <tr>
-            <th style="width: 27vh; text-align:center; color: white">Employee</th>
-            <th style="text-align:center; color: white">Start Date</th>
-            <th style="width: 27vh;text-align:center; color: white">End Date</th>
-            <td style="width: 27vh;text-align:center; color: white">Accept</td>
-            <td style="width: 27vh;text-align:center; color: white">Deny</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="leaveRequest: ${leaveRequests}" >
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 27vh; text-align:center; color: white">Employee</th>
+                <th style="text-align:center; color: white">Start Date</th>
+                <th style="width: 27vh;text-align:center; color: white">End Date</th>
+                <td style="width: 27vh;text-align:center; color: white">Accept</td>
+                <td style="width: 27vh;text-align:center; color: white">Deny</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="leaveRequest: ${leaveRequests}" >
 
-            <td  th:text="${leaveRequest.getPerson().getName()}" style="width: 27vh; color: white"></td>
-            <td  th:text="${leaveRequest.getStartD()}" style="text-align:center; color: white"></td>
-            <td  th:text="${leaveRequest.getEndD()}" style="text-align:center; color: white"></td>
-            <td>
+                <td  th:text="${leaveRequest.getPerson().getName()}" style="width: 27vh; color: white"></td>
+                <td  th:text="${leaveRequest.getStartD()}" style="text-align:center; color: white"></td>
+                <td  th:text="${leaveRequest.getEndD()}" style="text-align:center; color: white"></td>
+                <td>
 
-                <form action="/employeeRequest/accept" method="post">
-                    <input type="hidden" name="personId" th:value="${leaveRequest.getPerson().getId()}" />
-                    <input type="submit" value="ACCEPT" class="btn btn-sm btn-primary" style="width:150px; margin-bottom: 10px"/>
-                </form>
-            </td>
-            <td>
+                    <form action="/employeeRequest/accept" method="post">
+                        <input type="hidden" name="personId" th:value="${leaveRequest.getPerson().getId()}" />
+                        <input type="submit" value="ACCEPT" class="btn btn-sm btn-primary" style="width:150px; margin-bottom: 10px"/>
+                    </form>
+                </td>
+                <td>
 
-                <form action="/employeeRequest/deny" method="post">
-                    <input type="hidden" name="personId" th:value="${leaveRequest.getPerson().getId()}" />
-                    <input type="submit" value="DENY" class="btn btn-sm btn-primary" style="width:150px; margin-bottom: 10px"/>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                    <form action="/employeeRequest/deny" method="post">
+                        <input type="hidden" name="personId" th:value="${leaveRequest.getPerson().getId()}" />
+                        <input type="submit" value="DENY" class="btn btn-sm btn-primary" style="width:150px; margin-bottom: 10px"/>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
