@@ -18,9 +18,11 @@ import restleavemanagement.service.ForButtonsService;
 import restleavemanagement.service.LeaveRequestService;
 import restleavemanagement.service.PersonService;
 import restleavemanagement.util.FreeDays;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class LeaveRequestController {
@@ -45,7 +47,8 @@ public class LeaveRequestController {
 
     FreeDays freeDays;
 
-    public LeaveRequestController() {
+    public LeaveRequestController(){
+
     }
 
     @ModelAttribute("leaveRequestDto")
@@ -167,6 +170,17 @@ public class LeaveRequestController {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String startDate = formatter.format(leaveRequest.getStartDate());
             String endDate = formatter.format(leaveRequest.getEndDate());
+
+            if(leaveRequest.getStatus().equals("PENDING")) {
+                Date dateNow = new Date();
+                long ms = Math.abs(leaveRequest.getStartDate().getTime() - dateNow.getTime());
+                long result = TimeUnit.DAYS.convert(ms, TimeUnit.MILLISECONDS) + 2;
+
+                if (result <= 2) {
+                    leaveRequest.setStatus("DENY");
+                    leaveRequestRepository.save(leaveRequest);
+                }
+            }
 
             model.setViewName("/myRequest");
             model.addObject("name", person.getName());
