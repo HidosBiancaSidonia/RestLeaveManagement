@@ -1,6 +1,5 @@
 package restleavemanagement.service;
 
-import org.springframework.stereotype.Service;
 import restleavemanagement.dto.LeaveRequestDto;
 import restleavemanagement.model.LeaveRequest;
 import restleavemanagement.model.Person;

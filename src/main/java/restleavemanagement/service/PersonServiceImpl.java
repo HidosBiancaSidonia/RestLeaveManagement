@@ -7,23 +7,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import restleavemanagement.dto.PersonRegistrationDto;
-import restleavemanagement.enumeration.RoleType;
 import restleavemanagement.model.Person;
 import restleavemanagement.model.Role;
-import restleavemanagement.model.TeamType;
 import restleavemanagement.repository.PersonRepository;
-
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl  implements  PersonService{
 
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;

@@ -17,12 +17,10 @@ import restleavemanagement.repository.PersonRepository;
 import restleavemanagement.service.ForButtonsService;
 import restleavemanagement.service.LeaveRequestService;
 import restleavemanagement.service.PersonService;
-
+import restleavemanagement.util.FreeDays;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 @Controller
 public class LeaveRequestController {
@@ -44,6 +42,11 @@ public class LeaveRequestController {
 
     @Autowired
     ForButtonsService forButtonsService;
+
+    FreeDays freeDays;
+
+    public LeaveRequestController() {
+    }
 
     @ModelAttribute("leaveRequestDto")
     @RequestMapping(value = {"/create_leave_request"}, method = RequestMethod.GET)
@@ -84,9 +87,17 @@ public class LeaveRequestController {
         }
         else{
 
-            long ms = Math.abs(leaveRequestDto.getEndDate().getTime() - leaveRequestDto.getStartDate().getTime());
+            Calendar start = Calendar.getInstance();
+            start.setTime(leaveRequestDto.getStartDate());
 
-            if(TimeUnit.DAYS.convert(ms, TimeUnit.MILLISECONDS) > person.getVacationDays()){
+            Calendar end = Calendar.getInstance();
+            end.setTime(leaveRequestDto.getEndDate());
+
+            int count = isWeekendAndFreeDay(start,end);
+
+            //long ms = Math.abs(leaveRequestDto.getEndDate().getTime() - leaveRequestDto.getStartDate().getTime());
+
+            if(count > person.getVacationDays()){
                 modelAndView = new ModelAndView("/vacationDays");
                 modelAndView.setViewName("/vacationDays");
                 modelAndView.addObject("name", person.getName());
@@ -111,6 +122,38 @@ public class LeaveRequestController {
         }
 
         return modelAndView;
+    }
+
+    public int isWeekendAndFreeDay(Calendar start, Calendar end){
+        int count = 0;
+
+        freeDays = new FreeDays();
+        System.out.println(freeDays);
+
+        while(!start.after(end)){
+            Date targetDay = start.getTime();
+            System.out.println(targetDay);
+            String d = targetDay.toString().substring(0, 2);
+
+            if(d.toLowerCase().equals("sa") || d.toLowerCase().equals("su")){
+                System.out.println("Weekend");
+            }
+            else
+            {
+                ArrayList<Date> freeDaysArray = freeDays.getFreeDays();
+                if(freeDaysArray.contains(targetDay)){
+                    System.out.println("Free Day");
+                }
+                else{
+                    count++;
+                }
+            }
+
+            start.add(Calendar.DATE, 1);
+        }
+
+        System.out.println(count);
+        return count;
     }
 
     @GetMapping("/myRequest")
@@ -146,10 +189,16 @@ public class LeaveRequestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Person person = personService.findPersonByEmail(auth.getName());
         List<LeaveRequest> leaveRequests = leaveRequestRepository.findAll();
+        List<ForButtons> forButtons = forButtonsRepository.findAll();
 
-        for (LeaveRequest leaveRequest: leaveRequests) {
+        for (LeaveRequest leaveRequest : leaveRequests) {
             if(leaveRequest.getPerson().getId().equals(person.getId())){
                 leaveRequestService.deleteLeaveRequest(leaveRequest.getId());
+                for(ForButtons forButton : forButtons){
+                    if(forButton.getEmployee_id()==leaveRequest.getPerson().getId()){
+                        forButtonsService.delete(forButton.getId());
+                    }
+                }
             }
         }
 
@@ -222,8 +271,6 @@ public class LeaveRequestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Person person = personService.findPersonByEmail(auth.getName());
 
-        System.out.println(person_id);
-
         List<ForButtons> forButtons = forButtonsRepository.findAll();
 
         for (ForButtons forButton:forButtons) {
@@ -241,6 +288,19 @@ public class LeaveRequestController {
                 leaveRequest.setNrStatus(nr);
                 if(leaveRequest.getNrStatus()==leaveRequest.getPerson().getBoss().size()){
                     leaveRequest.setStatus("ACCEPTED");
+
+                    Calendar start = Calendar.getInstance();
+                    start.setTime(leaveRequest.getStartDate());
+
+                    Calendar end = Calendar.getInstance();
+                    end.setTime(leaveRequest.getEndDate());
+
+                    int days = isWeekendAndFreeDay(start, end);
+
+                    Person employee = leaveRequest.getPerson();
+
+                    employee.setVacationDays(employee.getVacationDays() - days);
+                    personRepository.save(employee);
                 }
 
                 leaveRequestRepository.save(leaveRequest);

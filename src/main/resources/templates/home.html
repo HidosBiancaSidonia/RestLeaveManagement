@@ -63,7 +63,6 @@
     <form th:action="@{/home}" th:object="${user}" method="get">
         <div class="myDiv" >
             <h2 style="text-align:center; color: white"><b>Welcome!<br/>In our company you are <span sec:authentication="principal.authorities"> Roles</span></b> &#128521;</h2>
-<!--            <h4 style="text-align:center; color: white">You are part of the teams: <br/><span th:each="team: ${teams}" th:utext="${team}">team </span></h4>-->
 
             <div class = "form-group">
                 <label style="color: white"> Name </label>
@@ -83,6 +82,13 @@
                 <label style="color: white">Phone Number</label>
                 <input  id="phone" name="phone" class="form-control"
                         th:value="${user.getPhoneNumber()}" autofocus autocomplete="off"
+                        style="color: black;width:370px; margin-left: 25px;" readonly /> <br/>
+            </div>
+
+            <div class="form-group">
+                <label style="color: white">Vacation Days</label>
+                <input  id="vacationDays" name="vacationDays" class="form-control"
+                        th:value="${user.getVacationDays()}" autofocus autocomplete="off"
                         style="color: black;width:370px; margin-left: 25px;" readonly /> <br/>
             </div>
 

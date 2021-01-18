@@ -19,4 +19,9 @@ public class ForButtonsServiceImpl implements ForButtonsService{
                 false);
         return forButtonsRepository.save(forButtons);
     }
+
+    @Override
+    public void delete(Long id) {
+        forButtonsRepository.deleteById(id);
+    }
 }

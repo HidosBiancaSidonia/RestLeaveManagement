@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class LeaveRequestServiceImpl implements LeaveRequestService {
-    private LeaveRequestRepository leaveRequestRepository;
+    private final LeaveRequestRepository leaveRequestRepository;
 
     public LeaveRequestServiceImpl(LeaveRequestRepository leaveRequestRepository) {
         this.leaveRequestRepository = leaveRequestRepository;
@@ -23,13 +23,11 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
     @Override
     public LeaveRequest save(LeaveRequestDto registrationDto) throws Exception {
-        if (requestLengthIsHigherThanSixMonths(registrationDto.getStartDate(), registrationDto.getEndDate())) {
-            System.out.println("Intra in requestLengthIsHigherThanSixMonths si returneaza: " + requestLengthIsHigherThanSixMonths(registrationDto.getStartDate(), registrationDto.getEndDate()));
-            throw new Exception("You can't create a leave request longer than 6 months.");
+        if (startDateIsSixMonthsBefore(registrationDto.getStartDate())) {
+            throw new Exception("You can't create a leave request with 6 months days after starting date.");
         }
 
         if (startDateIsFiveDaysAhead(registrationDto.getStartDate())) {
-            System.out.println("Intra in startDateIsFiveDaysAhead si returneaza: " + startDateIsFiveDaysAhead(registrationDto.getStartDate()));
             throw new Exception("You can't create a leave request 5 days before starting date.");
         }
 
@@ -48,10 +46,20 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         leaveRequestRepository.deleteById(id);
     }
 
-    private boolean requestLengthIsHigherThanSixMonths(Date startDate, Date endDate) {
-        long ms = Math.abs(endDate.getTime() - startDate.getTime());
-        long result = TimeUnit.DAYS.convert(ms, TimeUnit.MILLISECONDS);
-        return result > 180;
+    private boolean startDateIsSixMonthsBefore(Date startDate) {
+        Date now = new Date();
+        DateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        try {
+            startDate = sdf.parse(startDate.toString());
+            long ms = Math.abs(startDate.getTime() - now.getTime());
+            long result = TimeUnit.DAYS.convert(ms, TimeUnit.MILLISECONDS);
+
+            return result > 180;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private boolean startDateIsFiveDaysAhead(Date startDate) {

@@ -6,13 +6,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import restleavemanagement.dto.LeaveRequestDto;
 import restleavemanagement.model.Person;
 import restleavemanagement.model.Role;
 import restleavemanagement.model.TeamType;
 import restleavemanagement.repository.PersonRepository;
 import restleavemanagement.repository.RoleRepository;
-import restleavemanagement.service.LeaveRequestService;
 import restleavemanagement.service.PersonService;
 
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class MainController {
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView home() {
-        model =new ModelAndView();
+        model = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Person person = personService.findPersonByEmail(auth.getName());
         List<Role> role = roleRepository.findAll();

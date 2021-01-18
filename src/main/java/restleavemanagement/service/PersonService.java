@@ -5,5 +5,5 @@ import restleavemanagement.model.Person;
 
 public interface PersonService extends UserDetailsService {
 
-    public Person findPersonByEmail(String username);
+    Person findPersonByEmail(String username);
 }
