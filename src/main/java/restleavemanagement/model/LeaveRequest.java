@@ -4,7 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -35,15 +34,6 @@ public class LeaveRequest {
     private Person person;
 
     public LeaveRequest() {
-    }
-
-    public LeaveRequest(Long id, Date startDate, Date endDate, String status, int nrStatus, Person person) throws ParseException {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.nrStatus = nrStatus;
-        this.person = person;
     }
 
     public LeaveRequest(Date startDate, Date endDate, String status, int nrStatus, Person person) {

@@ -110,10 +110,6 @@ public class Person {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -124,10 +120,6 @@ public class Person {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public int getVacationDays() {
@@ -150,24 +142,8 @@ public class Person {
         return teamTypes;
     }
 
-    public void setTeamTypes(Set<TeamType> teamTypes) {
-        this.teamTypes = teamTypes;
-    }
-
-    public LeaveRequest getLeaveRequests() {
-        return leaveRequests;
-    }
-
-    public void setLeaveRequests(LeaveRequest leaveRequests) {
-        this.leaveRequests = leaveRequests;
-    }
-
     public Set<Person> getBoss() {
         return boss;
-    }
-
-    public void setBoss(Set<Person> boss) {
-        this.boss = boss;
     }
 
 }
