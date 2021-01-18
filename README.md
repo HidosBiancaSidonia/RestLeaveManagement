@@ -16,5 +16,16 @@
 
 - [X] Direct superiors receive a leave request form, which they can reject or approve. The application is available for approval no later than two days before the holiday period, otherwise it is considered rejected.
 
+<h3>LogIn Page :</h3>
+<img width="960" alt="Screenshot_1" src="https://user-images.githubusercontent.com/58684695/104957645-352e4e80-59d7-11eb-8b95-9d9f37dc02d3.png">
 
+<h3>What an employee sees on his page after logging in: </h3>
+<img width="600" alt="Screenshot_2" src="https://user-images.githubusercontent.com/58684695/104958026-f64cc880-59d7-11eb-9338-d939b82209b5.png">
+<img width="600" alt="Screenshot_3" src="https://user-images.githubusercontent.com/58684695/104958128-23997680-59d8-11eb-9855-e2456a2514d3.png">
+<img width="600" alt="Screenshot_4" src="https://user-images.githubusercontent.com/58684695/104958130-25633a00-59d8-11eb-89c0-02065e6cc4e6.png">
 
+<h3> What a boss sees on his page after logging in: </h3>
+
+<img width="600" alt="Screenshot_5" src="https://user-images.githubusercontent.com/58684695/104958657-18931600-59d9-11eb-9b68-9e42ad045070.png">
+<img width="600" alt="Screenshot_6" src="https://user-images.githubusercontent.com/58684695/104958659-1a5cd980-59d9-11eb-9f32-fba65215a207.png">
+<img width="600" alt="Screenshot_7" src="https://user-images.githubusercontent.com/58684695/104958661-1b8e0680-59d9-11eb-918f-e15d4493dde8.png">
