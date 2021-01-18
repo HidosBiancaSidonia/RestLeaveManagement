@@ -29,3 +29,6 @@
 <img width="600" alt="Screenshot_5" src="https://user-images.githubusercontent.com/58684695/104958657-18931600-59d9-11eb-9b68-9e42ad045070.png">
 <img width="600" alt="Screenshot_6" src="https://user-images.githubusercontent.com/58684695/104958659-1a5cd980-59d9-11eb-9f32-fba65215a207.png">
 <img width="600" alt="Screenshot_7" src="https://user-images.githubusercontent.com/58684695/104958661-1b8e0680-59d9-11eb-918f-e15d4493dde8.png">
+
+<h4> What the database behind the website looks like:</h4>
+<img width="734" alt="Screenshot_8" src="https://user-images.githubusercontent.com/58684695/104961576-454a2c00-59df-11eb-83d2-0f21345cbd69.png">
