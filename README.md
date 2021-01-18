@@ -14,7 +14,7 @@
 
 - [X] In order for it to be approved, it must receive the approval of all direct bosses and respect the number of days left
 
-- [ ] Direct superiors receive a leave request form, which they can reject or approve. The application is available for approval no later than two days before the holiday period, otherwise it is considered rejected.
+- [X] Direct superiors receive a leave request form, which they can reject or approve. The application is available for approval no later than two days before the holiday period, otherwise it is considered rejected.
 
 
 
