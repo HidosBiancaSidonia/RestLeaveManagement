@@ -44,7 +44,6 @@ public class LeaveRequest {
         this.person = person;
     }
 
-
     private String startD;
     private String endD;
 

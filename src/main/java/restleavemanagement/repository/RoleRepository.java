@@ -3,7 +3,6 @@ package restleavemanagement.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import restleavemanagement.model.Role;
-
 import java.util.List;
 
 @Repository

@@ -21,6 +21,7 @@ import restleavemanagement.util.FreeDays;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +48,9 @@ public class LeaveRequestController {
 
     FreeDays freeDays;
 
+    /**
+     * Constructor
+     */
     public LeaveRequestController(){
 
     }
@@ -59,6 +63,9 @@ public class LeaveRequestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Person person = personService.findPersonByEmail(auth.getName());
 
+        LocalDate now = LocalDate.now();
+
+
         LeaveRequest leaveRequestExist = leaveRequestService.getLeaveRequest(person);
         if(leaveRequestExist !=null ){
             modelAndView = new ModelAndView("/errors");
@@ -67,6 +74,7 @@ public class LeaveRequestController {
         }
         else{
             modelAndView = new ModelAndView("/create_leave_request");
+            modelAndView.addObject("now", now);
             modelAndView.addObject("name", person.getName());
             modelAndView.addObject("leaveRequestDto", new LeaveRequestDto());
             modelAndView.setViewName("/create_leave_request");
@@ -127,11 +135,15 @@ public class LeaveRequestController {
         return modelAndView;
     }
 
+    /**
+     * @param start rest leave start date
+     * @param end rest leave end date
+     * @return the number of days off that are not on weekends or holidays
+     */
     public int isWeekendAndFreeDay(Calendar start, Calendar end){
         int count = 0;
 
         freeDays = new FreeDays();
-        System.out.println(freeDays);
 
         while(!start.after(end)){
             Date targetDay = start.getTime();

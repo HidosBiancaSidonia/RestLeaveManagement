@@ -30,6 +30,12 @@ public class MainController {
 
     ModelAndView model = null;
 
+    /**
+     * Constructor
+     */
+    public MainController() {
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";

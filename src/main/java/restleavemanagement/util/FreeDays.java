@@ -8,7 +8,6 @@ import java.util.GregorianCalendar;
 public class FreeDays {
     private ArrayList<Date> freeDays = new ArrayList<>();
 
-
     public FreeDays() {
         this.freeDays.add(new GregorianCalendar(2021, Calendar.JANUARY, 1).getTime());
         this.freeDays.add(new GregorianCalendar(2021, Calendar.JANUARY, 2).getTime());

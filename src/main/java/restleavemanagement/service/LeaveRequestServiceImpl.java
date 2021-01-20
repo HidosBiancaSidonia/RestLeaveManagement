@@ -5,7 +5,6 @@ import restleavemanagement.dto.LeaveRequestDto;
 import restleavemanagement.model.LeaveRequest;
 import restleavemanagement.model.Person;
 import restleavemanagement.repository.LeaveRequestRepository;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +28,10 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
         if (startDateIsFiveDaysAhead(registrationDto.getStartDate())) {
             throw new Exception("You can't create a leave request 5 days before starting date.");
+        }
+
+        if(!startEnd(registrationDto.getStartDate(), registrationDto.getEndDate())){
+            throw new Exception("You can't create a leave request that have end date before start date.");
         }
 
         LeaveRequest leaveRequest = new LeaveRequest(registrationDto.getStartDate(),registrationDto.getEndDate(),"PENDING",0,registrationDto.getPerson());
@@ -76,5 +79,9 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         }
 
         return false;
+    }
+
+    private boolean startEnd(Date startDate, Date endDate) {
+        return startDate.before(endDate);
     }
 }

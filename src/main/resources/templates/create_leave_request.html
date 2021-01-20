@@ -62,10 +62,10 @@
             <h1 class="h3 mb-3 font-weight-normal" style="color: white">Create Leave Request</h1>
 
             <label style="color: white; margin-top: 20px; margin-bottom: 20px" for="startDate">Start Date</label>
-            <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" id="startDate" class="form-control" th:field="*{startDate}">
+            <input type="date" th:attr="min=${now}" pattern="\d{1,2}/\d{1,2}/\d{4}" id="startDate" required class="form-control" th:field="*{startDate}">
 
             <label style="color: white; margin-top: 20px; margin-bottom: 20px" for="endDate">End Date</label>
-            <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" id="endDate" class="form-control" th:field="*{endDate}">
+            <input type="date" th:attr="min=${now}" pattern="\d{1,2}/\d{1,2}/\d{4}" id="endDate" required class="form-control" th:field="*{endDate}">
 
         <button class="btn btn-sm btn-primary" type="submit"
                 style="width:150px; margin-top: 20px; margin-bottom: 20px">Submit</button>
